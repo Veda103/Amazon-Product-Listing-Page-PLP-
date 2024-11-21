@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>  AMAZON Tech Spot  </title>
+    <style>
+        :root {
+            --primary-color: #232f3e;
+            --secondary-color: #febd69;
+            --accent-color: #37475a;
+            --text-color: #ffffff;
+            --background-color: #f3f3f3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 15px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-icons {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-icon span {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 30px 50px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.1);
+        }
+
+        .product-details {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
+        .product-rating {
+            display: flex;
+            align-items: center;
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .btn {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-cart {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+        }
+
+        .btn-cart:hover {
+            background-color: #f0a04b;
+        }
+
+        .btn-wishlist {
+            background-color: #e0e0e0;
+            color: var(--primary-color);
+        }
+
+        .btn-wishlist.active {
+            background-color: #ff6b6b;
+            color: white;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="0a06600cc3cedeb49280b54114c88ce6.jpg" alt="  AMAZON Tech Spot  ">
+            <h1>  amazon TECH SPOT  </h1>
+        </div>
+        <div class="nav-icons">
+            <div class="nav-icon" id="cart-icon">
+                🛒 <span id="cart-count">0</span>
+            </div>
+            <div class="nav-icon" id="wishlist-icon">
+                ❤️ <span id="wishlist-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Product Grid -->
+    <div id="product-grid" class="product-grid"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024  AMAZON Tech Spot  . By Veda.</p>
+    </footer>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "Apple MacBook Pro 16\"",
+                price: 2099.99,
+                rating: 4.8,
+                image: "236492_MacBook_Pro_16__2023__AKrales_0114.jpg"
+            },
+            {
+                id: 2,
+                name: "Samsung Galaxy S24 Ultra",
+                price: 1100.99,
+                rating: 4.7,
+                image: "66cb663066dc79219b717879-samsung-galaxy-s24-ultra-512-gb-titanyum.jpg"
+            },
+            {
+                id: 3,
+                name: "Sony WH-1000XM5 Headphones",
+                price: 399.99,
+                rating: 4.9,
+                image: "d5ba7d10-9111-450f-8d1b-be2b65d8c06c.__CR0,0,600,450_PT0_SX600_V1___.jfif"
+            },
+            {
+                id: 4,
+                name: "iPad Air 5th Generation",
+                price: 599.99,
+                rating: 4.6,
+                image: "apple-ipad-air-5th-gen-2022_2tmobile.jpg"
+            },
+            {
+                id: 5,
+                name: "Dell XPS 15 Laptop",
+                price: 999.99,
+                rating: 4.7,
+                image: "laptops-xps-15-7590-pdp-mod4-1.jpg"
+            },
+            {
+                id: 6,
+                name: "LG OLED C2 TV 65\"",
+                price: 799.99,
+                rating: 4.8,
+                image: "F5vQthWr.jpg"
+            },
+            {
+                id: 7,
+                name: "Bose QuietComfort Earbuds",
+                price: 279.99,
+                rating: 4.5,
+                image: "61OjFJ2p1nL.jpg"
+            },
+            {
+                id: 8,
+                name: "Garmin Fenix 7 Smartwatch",
+                price: 699.99,
+                rating: 4.6,
+                image: "61NYFHe3uEL.jpg"
+            },
+            {
+                id: 9,
+                name: "Samsung Galaxy S23 Ultra",
+                price: 399.99,
+                rating: 4.7,
+                image: "71lD7eGdW-L.jpg"
+            },
+            {
+                id: 10,
+                name: "iPhone 16 Pro Max",
+                price: 699.99,
+                rating: 4.6,
+                image: "Apple-iPhone-16-Pro-hero-geo-240909-lp.jpg.og.jpg"
+            },
+            {
+                id: 11,
+                name: "boAt Storm Pro Smatchwatch",
+                price: 559.99,
+                rating: 4.9,
+                image: "boAt_Storm_Pro_image_1200x768.jpeg"
+            },
+            {
+                id: 12,
+                name: "MiVI SuperPods Immersio",
+                price: 199.99,
+                rating: 4.9,
+                image: "71wVgd6atUL._AC_CR0,0,0,0_SX352_SY330_.jpg"
+            }
+        ];
+
+        // Simplified State Management
+        const state = {
+            cart: JSON.parse(localStorage.getItem('cart')) || [],
+            wishlist: JSON.parse(localStorage.getItem('wishlist')) || []
+        };
+
+        // Render Products
+        function renderProducts() {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.classList.add('product-card');
+                
+                const isInWishlist = state.wishlist.some(item => item.id === product.id);
+
+                card.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}" class="product-image">
+                    <div class="product-details">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <div class="product-rating">
+                            ${'★'.repeat(Math.floor(product.rating))}
+                            ${'☆'.repeat(5 - Math.floor(product.rating))}
+                            (${product.rating})
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-cart" data-id="${product.id}">Add to Cart</button>
+                            <button class="btn btn-wishlist ${isInWishlist ? 'active' : ''}" data-id="${product.id}">
+                                ${isInWishlist ? '❤️' : '🤍'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            // Event Listeners
+            grid.addEventListener('click', handleProductAction);
+            updateCounters();
+        }
+
+        // Central Event Handler
+        function handleProductAction(event) {
+            const target = event.target;
+            const productId = parseInt(target.dataset.id);
+            const product = products.find(p => p.id === productId);
+
+            if (target.classList.contains('btn-cart')) {
+                if (!state.cart.some(item => item.id === productId)) {
+                    state.cart.push(product);
+                    saveState();
+                }
+            }
+
+            if (target.classList.contains('btn-wishlist')) {
+                const index = state.wishlist.findIndex(item => item.id === productId);
+                
+                if (index === -1) {
+                    state.wishlist.push(product);
+                    target.classList.add('active');
+                    target.textContent = '❤️';
+                } else {
+                    state.wishlist.splice(index, 1);
+                    target.classList.remove('active');
+                    target.textContent = '🤍';
+                }
+                saveState();
+            }
+        }
+
+        // Save State to Local Storage
+        function saveState() {
+            localStorage.setItem('cart', JSON.stringify(state.cart));
+            localStorage.setItem('wishlist', JSON.stringify(state.wishlist));
+            updateCounters();
+        }
+
+        // Update Counters
+        function updateCounters() {
+            document.getElementById('cart-count').textContent = state.cart.length;
+            document.getElementById('wishlist-count').textContent = state.wishlist.length;
+        }
+
+        // Initial Render
+        renderProducts();
+    </script>
+</body>
+</html>
+<!--DESIGNED BY VEDA-->
